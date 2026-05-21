@@ -16,13 +16,30 @@ fetch('almacenes.json')
 function liquidar() {
     const t = document.getElementById('tipoVehiculo').value;
     const p = document.getElementById('placa').value.trim().toUpperCase();
-    const m = parseInt(document.getElementById('minutos').value);
     const pp = document.getElementById('picoPlaca').checked;
     const loc = document.getElementById('almacen').value.trim();
     const v = parseFloat(document.getElementById('valorCompra').value) || 0;
+    
+    // Captura de horas
+    const hEntrada = document.getElementById('horaEntrada').value;
+    const hSalida = document.getElementById('horaSalida').value;
+
+    if (!hEntrada || !hSalida) {
+        alert("Por favor, ingrese la hora de entrada y la hora de salida.");
+        return;
+    }
+
+    // Cálculo de minutos
+    const [hE, mE] = hEntrada.split(':').map(Number);
+    const [hS, mS] = hSalida.split(':').map(Number);
+    const m = (hS * 60 + mS) - (hE * 60 + mE);
+
+    if (m <= 0) {
+        alert("La hora de salida debe ser posterior a la de entrada.");
+        return;
+    }
 
     // --- VALIDACIÓN DE PLACA ---
-    // Auto: 3 letras y 3 números | Moto: 2-3 letras, 2 números, A-I final opcional
     const regexAuto = /^[A-Z]{3}[0-9]{3}$/;
     const regexMoto = /^([A-Z]{2,3}[0-9]{2}[A-I]{1}|[A-Z]{2,3}[0-9]{2})$/;
 
@@ -32,11 +49,6 @@ function liquidar() {
     }
     if (t === "Moto" && !regexMoto.test(p)) {
         alert("Placa de Moto inválida. Formato: 2-3 letras + 2 números (opcional: A-I al final).");
-        return;
-    }
-
-    if (isNaN(m) || m < 1) {
-        alert("Por favor, ingrese un número de minutos válido (mínimo 1).");
         return;
     }
 
@@ -51,26 +63,24 @@ function liquidar() {
     let descTotal = 0;
     let detalleDesc = "Sin descuentos";
 
-    // 1. Descuento Pico y Placa (Solo Automóvil) - Ajustado a 10%
+    // 1. Descuento Pico y Placa
     if (t === "Automóvil" && pp) {
         descTotal += 0.10;
         detalleDesc = "Pico y Placa (10%)";
     }
 
-    // 2. Lógica de Descuentos Escalonados (Reducidos)
+    // 2. Lógica de Descuentos Escalonados
     let dComp = 0;
     if (v >= 50000) {
-        if (v >= 200000) dComp = 0.20;      // 20%
-        else if (v >= 150000) dComp = 0.12; // 12%
-        else if (v >= 100000) dComp = 0.08; // 8%
-        else if (v >= 50000) dComp = 0.03;  // 3%
+        if (v >= 200000) dComp = 0.20;
+        else if (v >= 150000) dComp = 0.12;
+        else if (v >= 100000) dComp = 0.08;
+        else if (v >= 50000) dComp = 0.03;
     }
 
-    // Bonos adicionales
-    if (almacenes.grandes.includes(loc) && dComp > 0) dComp += 0.05; // Extra 5%
-    if (t === "Moto" && dComp > 0) dComp += 0.02;                    // Extra 2%
+    if (almacenes.grandes.includes(loc) && dComp > 0) dComp += 0.05;
+    if (t === "Moto" && dComp > 0) dComp += 0.02;
 
-    // Aplicar descuento de compras
     if (dComp > 0) {
         descTotal += dComp;
         detalleDesc = (detalleDesc === "Sin descuentos") ? `Convenio ${loc} (${(dComp * 100).toFixed(0)}%)` : `Pico y Placa + Convenio (${(descTotal * 100).toFixed(0)}%)`;
@@ -84,7 +94,8 @@ function liquidar() {
     document.getElementById('detalle-factura').innerHTML = `
         <ul>
             <li><span>Placa:</span> <strong>${p}</strong></li>
-            <li><span>Último Dígito:</span> <strong>${p.slice(-1)}</strong></li>
+            <li><span>Tiempo total:</span> <strong>${m} minutos</strong></li>
+            <li><span>Hora de salida:</span> <strong>${hSalida}</strong></li>
             <li><span>Tarifa:</span> <span>$${tarifa}/min</span></li>
             <li><span>Subtotal:</span> <span>$${sub}</span></li>
             <li><span>Descuento aplicado:</span> <strong>${detalleDesc}</strong></li>
