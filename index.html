@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Alejandro Diaz">
+    <title>Liquidación de Parqueadero Semántica</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Control de Estacionamiento</h1>
+        <p>Terminal de Pago Automatizada</p>
+    </header>
+
+    <main>
+        <section id="captura">
+            <form id="parkingForm">
+                <fieldset>
+                    <legend>Identificación y Tiempo</legend>
+                    <label for="tipoVehiculo">Vehículo:</label>
+                    <select id="tipoVehiculo" required>
+                        <option value="Automóvil">Automóvil</option>
+                        <option value="Moto">Moto</option>
+                    </select>
+
+                    <label for="placa">Placa:</label>
+                    <!-- Validamos formato y restringimos entrada mediante title y CSS -->
+                    <input type="text" id="placa" required placeholder="ABC123" style="text-transform: uppercase;" 
+                           title="Auto: 3 letras y 3 números. Moto: 2-3 letras, 2 números (opcional: letra A-I al final).">
+
+                    <label for="minutos">Minutos de estancia:</label>
+                    <input type="number" id="minutos" min="1" step="1" required placeholder="Ej: 60">
+                </fieldset>
+
+                <fieldset>
+                    <legend>Almacenes y Convenios</legend>
+                    <label for="almacen">Nombre del Almacén:</label>
+                    <input type="text" id="almacen" list="listaAlmacenes" pattern="[A-Za-z\s]+" title="Solo se permiten letras">
+                    <datalist id="listaAlmacenes"></datalist>
+
+                    <label for="valorCompra">Monto factura de compra ($):</label>
+                    <input type="number" id="valorCompra" min="0" step="100" value="0">
+                    
+                    <label>
+                        <input type="checkbox" id="picoPlaca"> Aplica Pico y Placa
+                    </label>
+                </fieldset>
+
+                <button type="button" onclick="liquidar()">Generar Recibo</button>
+            </form>
+        </section>
+
+        <section id="contenedor-resultado" class="oculto">
+            <article class="ticket">
+                <header>
+                    <h2>Recibo de Pago</h2>
+                </header>
+                
+                <section id="detalle-factura">
+                    <!-- JS inyectará el resultado -->
+                </section>
+
+                <footer>
+                    <section class="pago-cliente">
+                        <label for="montoCliente">Ingrese Efectivo:</label>
+                        <input type="number" id="montoCliente" min="1" step="50">
+                        <button onclick="calcularCambio()">Pagar</button>
+                    </section>
+
+                    <aside id="area-cambio"></aside>
+                </footer>
+            </article>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

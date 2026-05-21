@@ -1,0 +1,193 @@
+/* --- Variables de Marca --- */
+:root {
+    --primary: #2ecc71;
+    --primary-hover: #27ae60;
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+}
+
+/* --- Contenedor Principal con Animación de Entrada --- */
+main {
+    width: 100%;
+    max-width: 550px;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Encabezado --- */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(to right, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* --- Formulario Estilizado --- */
+fieldset {
+    border: none;
+    margin-bottom: 25px;
+}
+
+legend {
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 15px;
+    letter-spacing: 0.05em;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+}
+
+/* --- Botones con Efecto Hover --- */
+button {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: #052e16;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* --- Ticket de Resultados (Estilo Neumórfico Dark) --- */
+#contenedor-resultado {
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.ticket {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 25px;
+    border-left: 4px solid var(--primary);
+}
+
+#detalle-factura ul {
+    list-style: none;
+}
+
+#detalle-factura li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.95rem;
+}
+
+#detalle-factura li:last-child {
+    border-bottom: none;
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-top: 10px;
+}
+
+/* --- Área de Cambio --- */
+#area-cambio {
+    margin-top: 20px;
+    background: #000;
+    padding: 20px;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    color: #2ecc71;
+    border: 1px solid #1e293b;
+}
+
+.oculto {
+    display: none;
+}
+
+/* --- Checkbox Personalizado --- */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
