@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Alejandro Diaz">
-    <title>Liquidación de Parqueadero Semántica</title>
+    <title>Liquidación de Parqueadero </title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,12 +26,14 @@
                     </select>
 
                     <label for="placa">Placa:</label>
-                    <!-- Validamos formato y restringimos entrada mediante title y CSS -->
                     <input type="text" id="placa" required placeholder="ABC123" style="text-transform: uppercase;" 
-                           title="Auto: 3 letras y 3 números. Moto: 2-3 letras, 2 números (opcional: letra A-I al final).">
+                           title="Auto: 3 letras y 3 números. Moto: 2-3 letras, 2 números.">
 
-                    <label for="minutos">Minutos de estancia:</label>
-                    <input type="number" id="minutos" min="1" step="1" required placeholder="Ej: 60">
+                    <label for="horaEntrada">Hora de Entrada:</label>
+                    <input type="time" id="horaEntrada" required>
+
+                    <label for="horaSalida">Hora de Salida:</label>
+                    <input type="time" id="horaSalida" required>
                 </fieldset>
 
                 <fieldset>
@@ -66,7 +68,7 @@
                     <section class="pago-cliente">
                         <label for="montoCliente">Ingrese Efectivo:</label>
                         <input type="number" id="montoCliente" min="1" step="50">
-                        <button onclick="calcularCambio()">Pagar</button>
+                        <button type="button" onclick="calcularCambio()">Pagar</button>
                     </section>
 
                     <aside id="area-cambio"></aside>
